@@ -1,6 +1,5 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
-
 const { handleSaveErrors, RequestError } = require("../helpers");
 
 const transactionSchema = new Schema(
@@ -25,9 +24,24 @@ const transactionSchema = new Schema(
       type: Number,
       required: [true, "Year is required"],
     },
+    // category: {
+    //   type: String,
+    //   default: null,
+    // },
     category: {
       type: String,
-      default: null,
+      enum: [
+        "Main",
+        "Food",
+        "Auto",
+        "Development",
+        "Children",
+        "House",
+        "Education",
+        "Reset",
+        "Other",
+      ],
+      default: "Other",
     },
     comment: {
       type: String,
@@ -61,11 +75,27 @@ const addSchema = Joi.object({
   month: Joi.number().required(),
   year: Joi.number().required(),
   comment: Joi.string(),
-  category: Joi.string(),
+  // category: Joi.string(),
+  category: Joi.string().valid(
+    "Main",
+    "Food",
+    "Auto",
+    "Development",
+    "Children",
+    "House",
+    "Education",
+    "Reset",
+    "Other"
+  ),
 });
 
+const getStatisticsSchema = Joi.object({
+  month: Joi.number().required(),
+  year: Joi.number().required(),
+});
 const schemas = {
   addSchema,
+  getStatisticsSchema,
 };
 
 module.exports = {

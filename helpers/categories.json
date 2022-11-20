@@ -6,5 +6,6 @@
   { "id": "5", "title": "Children" },
   { "id": "6", "title": "House" },
   { "id": "7", "title": "Education" },
-  { "id": "8", "title": "Reset" }
+  { "id": "8", "title": "Reset" },
+  { "id": "9", "title": "Other" }
 ]
