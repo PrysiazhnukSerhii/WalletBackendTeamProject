@@ -15,7 +15,7 @@ router.post(
 );
 router.get("/", authenticate, ctrlWrapper(ctrl.getAll));
 router.get("/categories", ctrlWrapper(ctrl.getCategories));
-router.get(
+router.post(
   "/statistics",
   authenticate,
   validateBody(schemas.getStatisticsSchema),
