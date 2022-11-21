@@ -1,19 +1,11 @@
+const _ = require("lodash");
+const { getCategoriesList } = require("../../helpers");
 const { Transaction } = require("../../models/transaction");
 
 const getStatistics = async (req, res) => {
   const { _id: owner } = req.user;
   const { month, year } = req.body;
-  //   const categories = [
-  //     { id: "1", title: "Main" },
-  //     { id: "2", title: "Food" },
-  //     { id: "3", title: "Auto" },
-  //     { id: "4", title: "Development" },
-  //     { id: "5", title: "Children" },
-  //     { id: "6", title: "House" },
-  //     { id: "7", title: "Education" },
-  //     { id: "8", title: "Reset" },
-  //     { id: "9", title: "Other" },
-  //   ];
+  const categories = await getCategoriesList();
 
   const expensesSum = await Transaction.aggregate([
     {
@@ -69,11 +61,17 @@ const getStatistics = async (req, res) => {
     },
   ]);
 
+  const mergedCategoriesByTitle = _.merge(
+    _.keyBy(categoriesSum, "title"),
+    _.keyBy(categories, "title")
+  );
+  const sortedCategoriesSum = _.sortBy(mergedCategoriesByTitle, ["id"]);
+
   const result = [
     {
-      totalExpenses: expensesSum[0].total,
-      totalIncome: incomesSum[0].total,
-      totalCategories: categoriesSum,
+      totalExpenses: expensesSum[0].total.toFixed(2),
+      totalIncome: incomesSum[0].total.toFixed(2),
+      totalCategories: sortedCategoriesSum,
     },
   ];
 

@@ -1,11 +1,11 @@
 [
-  { "id": "1", "title": "Main" },
-  { "id": "2", "title": "Food" },
-  { "id": "3", "title": "Auto" },
-  { "id": "4", "title": "Development" },
-  { "id": "5", "title": "Children" },
-  { "id": "6", "title": "House" },
-  { "id": "7", "title": "Education" },
-  { "id": "8", "title": "Reset" },
-  { "id": "9", "title": "Other" }
-]
+  { "id": "1", "title": "Main", "color":  "#FED057" },
+  { "id": "2", "title": "Food", "color": "#FFD8D0"},
+  { "id": "3", "title": "Auto", "color": "#FD9498" },
+  { "id": "4", "title": "Development", "color":"#C5BAFF" },
+  { "id": "5", "title": "Children" , "color": "#6E78E8"},
+  { "id": "6", "title": "House", "color": "#4A56E2" },
+  { "id": "7", "title": "Education", "color": "#81E1FF"},
+  { "id": "8", "title": "Reset", "color": "#24CCA7"},
+  { "id": "9", "title": "Other", "color": "#00AD84"}
+]    
