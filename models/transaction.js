@@ -1,7 +1,20 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
+const {
+  handleSaveErrors,
+  RequestError,
+  getCategoriesList,
+} = require("../helpers");
 
-const { handleSaveErrors, RequestError } = require("../helpers");
+const fs = require("fs");
+const path = require("path");
+
+const categoriesPath = path.resolve(__dirname, "../helpers/categories.json");
+
+const categoriesList = fs.readFileSync(categoriesPath, "utf-8");
+const categoriesTitle = JSON.parse(categoriesList).map(
+  (category) => category.title
+);
 
 const transactionSchema = new Schema(
   {
@@ -27,7 +40,8 @@ const transactionSchema = new Schema(
     },
     category: {
       type: String,
-      default: null,
+      enum: categoriesTitle,
+      default: "Other",
     },
     comment: {
       type: String,
@@ -61,11 +75,17 @@ const addSchema = Joi.object({
   month: Joi.number().required(),
   year: Joi.number().required(),
   comment: Joi.string(),
-  category: Joi.string(),
+  // category: Joi.string(),
+  category: Joi.string().valid(...categoriesTitle),
 });
 
+const getStatisticsSchema = Joi.object({
+  month: Joi.number().required(),
+  year: Joi.number().required(),
+});
 const schemas = {
   addSchema,
+  getStatisticsSchema,
 };
 
 module.exports = {
