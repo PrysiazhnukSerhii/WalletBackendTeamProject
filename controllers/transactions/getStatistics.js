@@ -51,13 +51,15 @@ const getStatistics = async (req, res) => {
     {
       $group: {
         _id: { category: "$category" },
-        total: {
-          $sum: "$sum",
-        },
+        total: { $sum: "$sum" },
       },
     },
     {
-      $project: { _id: 0, title: "$_id.category", total: "$total" },
+      $project: {
+        _id: 0,
+        title: "$_id.category",
+        total: { $round: ["$total", 2] },
+      },
     },
   ]);
 
@@ -69,9 +71,11 @@ const getStatistics = async (req, res) => {
 
   const result = [
     {
-      totalExpenses: expensesSum[0].total.toFixed(2),
-      totalIncome: incomesSum[0].total.toFixed(2),
-      totalCategories: sortedCategoriesSum,
+      totalExpenses: expensesSum[0]
+        ? Number(expensesSum[0].total.toFixed(2))
+        : 0,
+      totalIncome: incomesSum[0] ? Number(incomesSum[0].total.toFixed(2)) : 0,
+      totalCategories: expensesSum[0] ? sortedCategoriesSum : [],
     },
   ];
 
