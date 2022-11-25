@@ -7,9 +7,13 @@ const add = async (req, res) => {
   const { _id: owner } = req.user;
   const { type, sum } = req.body;
 
-  const lastTransaction = await Transaction.findOne({ owner }, "balance").sort({ createdAt: -1 });
+  const lastTransaction = await Transaction.findOne({ owner }, "balance").sort({
+    createdAt: -1,
+  });
   const currentBalance = lastTransaction?.balance || 0;
-  const balance = type ? currentBalance + sum : currentBalance - sum;
+  const balance = type
+    ? (currentBalance + sum).toFixed(2)
+    : (currentBalance - sum).toFixed(2);
 
   if (balance < 0) {
     throw RequestError(400, "You spend too much!");
