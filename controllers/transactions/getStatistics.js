@@ -70,7 +70,10 @@ const getStatistics = async (req, res) => {
   const sortedCategoriesSum = _.sortBy(mergedCategoriesByTitle, ["id"]);
 
   if (!expensesSum[0]) {
-    return [{ totalExpenses: 0, totalIncome: 0, totalCategories: [] }];
+    res
+      .status(200)
+      .json([{ totalExpenses: 0, totalIncome: 0, totalCategories: [] }]);
+    return;
   }
 
   const result = [
