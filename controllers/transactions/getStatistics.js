@@ -69,6 +69,13 @@ const getStatistics = async (req, res) => {
   );
   const sortedCategoriesSum = _.sortBy(mergedCategoriesByTitle, ["id"]);
 
+  if (!expensesSum[0]) {
+    res
+      .status(200)
+      .json([{ totalExpenses: 0, totalIncome: 0, totalCategories: [] }]);
+    return;
+  }
+
   const result = [
     {
       totalExpenses: expensesSum[0]
